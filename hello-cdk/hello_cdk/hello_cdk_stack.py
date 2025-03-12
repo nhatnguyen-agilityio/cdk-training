@@ -19,12 +19,12 @@ class HelloCdkStack(Stack):
             handler="index.handler",
             code=_lambda.Code.from_inline(
                 """
-                    exports.handler = async (event) => {
+                    exports.handler = async function(event) {
                         return {
                             statusCode: 200,
-                            body: JSON.stringify('Hello World!')
+                            body: JSON.stringify('Hello CDK!'),
                         };
-                    };                                  
+                    };                
                 """
             ),
         )
