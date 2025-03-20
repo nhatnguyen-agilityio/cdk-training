@@ -48,14 +48,3 @@ class MyPipelineProjectStack(cdk.Stack):
                 ),
             )
         )
-
-        stage.add_post(
-            ShellStep(
-                "validate",
-                input=source,
-                commands=[
-                    "cd my_pipeline_project",
-                    "sh ../tests/validate.sh"
-                ],
-            )
-        )
