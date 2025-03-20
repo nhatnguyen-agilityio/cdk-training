@@ -17,7 +17,11 @@ class MyPipelineProjectStack(cdk.Stack):
             synth=ShellStep(
                 "Synth",
                 input=CodePipelineSource.git_hub(
-                    "nhatnguyen-agilityio/cdk-training", "dev"
+                    "nhatnguyen-agilityio/cdk-training",
+                    "dev",
+                    authentication=cdk.SecretValue.secrets_manager(
+                        "github-token-secret"
+                    ),
                 ),
                 commands=[
                     "npm install -g aws-cdk",
