@@ -29,14 +29,6 @@ class MyPipelineProjectStack(cdk.Stack):
                     "python -m pip install -r requirements.txt",
                     "cdk synth",
                 ],
-                primary_output_directory="cdk.out",
+                primary_output_directory="my_pipeline_project/cdk.out",
             ),
         ),
-    # Define the artifact for the output
-    output=cdk.aws_codepipeline.Artifact("MyArtifact"),
-    # Explicitly set the directory to be uploaded
-    post_build=ShellStep(
-        "PostBuild",
-        commands=["echo 'Upload artifacts from cdk.out'"],
-        primary_output_directory="cdk.out",  # Explicitly set cdk.out as output
-    ),
