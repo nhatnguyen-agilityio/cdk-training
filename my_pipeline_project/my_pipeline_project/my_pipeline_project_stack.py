@@ -12,35 +12,50 @@ class MyPipelineProjectStack(cdk.Stack):
 
         # The code that defines your stack goes here
 
-        pipeline = CodePipeline(
-                self,
-                "Pipeline",
-                pipeline_name="MyPipeline",
-                synth=ShellStep(
-                    "Synth",
-                    input=CodePipelineSource.git_hub(
-                        "nhatnguyen-agilityio/cdk-training",
-                        "dev",
-                        authentication=cdk.SecretValue.secrets_manager(
-                            "github-token-secret"
-                        ),
-                    ),
-                    commands=[
-                        "cd my_pipeline_project",
-                        "npm install -g aws-cdk",
-                        "python -m pip install -r requirements.txt",
-                        "cdk synth",
-                    ],
-                    primary_output_directory="my_pipeline_project/cdk.out",
-                )
-            )
+        source = (
+            CodePipelineSource.git_hub(
+                "nhatnguyen-agilityio/cdk-training",
+                "dev",
+                authentication=cdk.SecretValue.secrets_manager(
+                    "github-token-secret"
+                ),
+            ),
+        )
 
-        pipeline.add_stage(
+        pipeline = CodePipeline(
+            self,
+            "Pipeline",
+            pipeline_name="MyPipeline",
+            synth=ShellStep(
+                "Synth",
+                input=source,
+                commands=[
+                    "cd my_pipeline_project",
+                    "npm install -g aws-cdk",
+                    "python -m pip install -r requirements.txt",
+                    "cdk synth",
+                ],
+                primary_output_directory="my_pipeline_project/cdk.out",
+            ),
+        )
+
+        stage = pipeline.add_stage(
             MyPipelineAppStage(
                 self,
                 "MyPipelineAppStageTest",
                 env=cdk.Environment(
                     account="194722436838", region="us-east-1"
                 ),
+            )
+        )
+
+        stage.add_post(
+            ShellStep(
+                "validate",
+                input=source,
+                commands=[
+                    "cd my_pipeline_project",
+                    "sh ../tests/validate.sh"
+                ],
             )
         )
