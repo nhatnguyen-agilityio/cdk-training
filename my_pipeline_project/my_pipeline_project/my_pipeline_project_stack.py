@@ -18,8 +18,8 @@ class MyPipelineProjectStack(cdk.Stack):
                 "dev",
                 authentication=cdk.SecretValue.secrets_manager(
                     "github-token-secret"
-                ),
-            ),
+                )
+            )
         )
 
         pipeline = CodePipeline(
