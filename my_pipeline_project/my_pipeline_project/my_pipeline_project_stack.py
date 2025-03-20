@@ -29,6 +29,7 @@ class MyPipelineProjectStack(cdk.Stack):
                     "python -m pip install -r requirements.txt",
                     "cdk synth",
                 ],
+                primary_output_directory="cdk.out",
             ),
         ),
     # Define the artifact for the output
