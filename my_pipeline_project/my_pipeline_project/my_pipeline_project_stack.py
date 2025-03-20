@@ -25,9 +25,11 @@ class MyPipelineProjectStack(cdk.Stack):
                 ),
                 commands=[
                     "cd my_pipeline_project",
+                    "ls -al",
                     "npm install -g aws-cdk",
                     "python -m pip install -r requirements.txt",
                     "cdk synth",
+                    "ls -al cdk.out",
                 ],
             ),
         )
