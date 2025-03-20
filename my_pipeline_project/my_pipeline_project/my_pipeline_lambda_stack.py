@@ -13,5 +13,6 @@ class MyLambdaStack(cdk.Stack):
             "LambdaFunction",
             runtime=Runtime.NODEJS_18_X,
             handler="index.handler",
+            timeout=cdk.Duration.seconds(10),
             code=InlineCode("exports.handler = _ => 'Hello, CDK';"),
         )
