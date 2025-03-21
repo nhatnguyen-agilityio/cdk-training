@@ -3,7 +3,7 @@ import os
 
 import aws_cdk as cdk
 
-from state_machine.state_machine_stack import StateMachineStack
+# from state_machine.state_machine_stack import StateMachineStack
 
 
 app = cdk.App()

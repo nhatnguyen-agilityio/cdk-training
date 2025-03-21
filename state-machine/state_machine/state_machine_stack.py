@@ -1,4 +1,4 @@
-from ast import List
+from typing import List
 from aws_cdk import (
     # Duration,
     Stack,
@@ -12,7 +12,14 @@ from constructs import Construct
 
 class StateMachineStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, *, topics: List[sns.Topic], **kwargs) -> None:
+    def __init__(
+        self,
+        scope: Construct,
+        construct_id: str,
+        *,
+        topics: List[sns.Topic],
+        **kwargs
+    ) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         # The code that defines your stack goes here
@@ -22,7 +29,6 @@ class StateMachineStack(Stack):
             definition=sfn.Pass(
                 self, "StartState",
             ),
-            timeout=None
         )
         
         func = lambda_.Function(
